@@ -53,6 +53,7 @@
                             <input class="form-control" name="myDate" id="myDate" type="date"
                                 onchange="datechange()"><br />
                             <span id="dmess"></span>
+                            <span id="errmess"></span>
                         </td>
                     </tr>
                     <tr>
@@ -97,15 +98,30 @@
         </form>
 
 
-        <table id="tabledata" border="1">
-
+        <table border="1" class="table">
+            <thead>
+                <tr>
+                    <th>SL No.</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>From Time</th>
+                    <th>To Time</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody id="tabledata"></tbody>
         </table>
         <script src="index.js"></script>
         <script>
+            // debugger
             let loginform = document.getElementById("app_book");
             let arr = []
 
+            getLocalStorageData()
+
             loginform.addEventListener('submit', (e) => {
+
                 e.preventDefault();
 
                 let username = document.getElementById("fname").value;
@@ -118,6 +134,9 @@
                 let uptotime = totime.split(" ")
                 let Description = document.getElementById("desp").value;
 
+                if (username === "" || Email === "" || Date === "" || formtime === "" || totime === "" || Description === "") {
+                    return;
+                }
                 const userData = {
                     name: username,
                     mail_id: Email,
@@ -126,60 +145,56 @@
                     time: uptotime,
                     Despvalue: Description
                 }
-
+                let newData = localStorage.setItem('new', JSON.stringify(userData))
                 arr.push(userData);
-                let array = localStorage.setItem('task', JSON.stringify(arr))
+                let array = localStorage.setItem('task', JSON.stringify(arr));
 
-                getLocalStorageData()
+                // let findarray = arr.find(element => element.name === userData.name)
+                // console.log(findarray);
 
+                let filterArray = arr.filter((value) => {
+                    return value.name == userdata.name;
+
+                })
+
+
+                console.log(filterArray)
+                loginform.reset();
+
+                updateTableData()
 
             })
-            // name = "",
-            //     mail_id = "",
-            //     appDate = "",
-            //     frtime = "",
-            //     time = "",
-            //     Despvalue = ""
-
             function getLocalStorageData() {
-                const task = JSON.parse(localStorage.getItem('task'))
+                const task = JSON.parse(localStorage.getItem("task"));
+                if (task) {
+                    arr = task;
 
-
-                // console.log(task)
-                // const newArray = task.map((value) => {
-                //     // console.log(value)
-                //     return `<tr>${value.name}</tr>`;
-                // })
-
-
-                for (let singletask of task) {
-                    tabledata.insertAdjacentHTML('afterend', `
-                       <table border = "1" p-2>
-                        <thead>
-                    <tr> 
-
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">From time</th>
-                        <th scope="col">To Time</th>
-                        <th scope="col">Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr>
-
-                        <td>${singletask.name}</td>
-                        <td>${singletask.mail_id}</td>
-                        <td>${singletask.appDate}</td>
-                        <td>${singletask.frtime}</td>
-                        <td>${singletask.time}</td>
-                        <td>${singletask.Despvalue}</td>
-                        </tbody>
-                        </table>`)
                 }
             }
+            function updateTableData() {
+                const task = JSON.parse(localStorage.getItem("task"))
+
+                const tabledata = document.getElementById("tabledata");
+                tabledata.innerHTML = "";
+
+                for (let i = 0; i < task.length; i++) {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td>${task[i].name}</td>
+                    <td>${task[i].mail_id}</td>
+                    <td>${task[i].appDate}</td>
+                    <td>${task[i].frtime}</td>
+                    <td>${task[i].time}</td>
+                    <td>${task[i].Despvalue}</td>`
+
+                    tabledata.appendChild(row);
+                }
+
+            }
+
+
+
         </script>
     </div>
 

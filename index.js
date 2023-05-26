@@ -29,18 +29,12 @@ function form_valid() {
         document.getElementById("dmess").innerHTML = "select date";
         return false;
     } else if (date <= realdate) {
-        alert("enter proper date")
+        document.getElementById("errmess").innerHTML = "Invalid Date"
         return false;
     }
-    // if (date == lsdate) {
-    //     alert("choose diffrent date - Appointment is full");
-    //     return false;
-    // }
+
     let ftime = document.form1.fromtime.value;
-    // let timeInput = document.getElementById("time").value;
-    // let timeparts = timeInput.split(":");
-    // currentTime.setHours(timeparts[0]);
-    // currentTime.setMinutes(timeparts[1])
+
     if (ftime == "") {
         document.getElementById("ftmess").innerHTML = "select from time";
         return false;
@@ -90,6 +84,10 @@ function datechange() {
     let date = document.form1.myDate.value;
     if (date != "") {
         document.getElementById("dmess").innerHTML = "";
+        return false;
+    }
+    if ((date <= realdate) == false) {
+        document.getElementById("errmess").innerHTML = "";
         return false;
     }
 }
