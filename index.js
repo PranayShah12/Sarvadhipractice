@@ -54,7 +54,8 @@ function form_valid() {
         return false;
     }
 
-
+    alert("Appointmnet is submitted")
+    location.href = "/Users/sarvadhi/Desktop/AppointmentDemo/appointment.html"
 }
 
 

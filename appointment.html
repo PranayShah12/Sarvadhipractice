@@ -20,65 +20,23 @@
 <body>
     <h1 class="pt-5 pb-5 text-center">Booked Appointments</h1>
     <h2 id="info"></h2>
-    <table class="table">
+    <div class="btnshow p-3">
+        <button class="btn btn-primary" onclick="updateTableData()">show Details</button>
+    </div>
+    <table border="1" class="table">
         <thead>
             <tr>
-                <th scope="col">Sl no</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Date</th>
-                <th scope="col">From time</th>
-                <th scope="col">To Time</th>
-                <th scope="col">Description</th>
+                <th>SL No.</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>From Time</th>
+                <th>To Time</th>
+                <th>Description</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>@fat</td>
-                <td>@fat</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-                <td>@twitter</td>
-                <td>@twitter</td>
-                <td>@twitter</td>
-            </tr>
-        </tbody>
+        <tbody id="tabledata"></tbody>
     </table>
-    <!-- <table border="1">
-        <tr>
-            <td>Sl NO</td>
-            <td>Name</td>
-            <td>Email</td>
-            <td>From Time</td>
-            <td>To Time</td>
-            <td>Description</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>pranay</td>
-            <td>xyz@gmail.com</td>
-            <td>9:00 am</td>
-            <td>10:00 pm</td>
-            <td>appointment</td>
-        </tr>
-    </table> -->
 </body>
 
 </html>

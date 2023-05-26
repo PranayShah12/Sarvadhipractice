@@ -23,7 +23,7 @@
 <body>
     <div class="container">
         <h1>Book Appointment</h1>
-        <form action="" id="app_book" name="form1" method="post" onsubmit=" return form_valid()">
+        <form action="appointment.html" id="app_book" name="form1" method="post" onsubmit=" return form_valid()">
             <div class="app p-2">
                 <table>
                     <tr>
@@ -98,7 +98,7 @@
         </form>
 
 
-        <table border="1" class="table">
+        <!-- <table border="1" class="table">
             <thead>
                 <tr>
                     <th>SL No.</th>
@@ -111,7 +111,7 @@
                 </tr>
             </thead>
             <tbody id="tabledata"></tbody>
-        </table>
+        </table> -->
         <script src="index.js"></script>
         <script>
             // debugger
@@ -153,7 +153,7 @@
                 // console.log(findarray);
 
                 let filterArray = arr.filter((value) => {
-                    return value.name == userdata.name;
+                    return
 
                 })
 
@@ -171,27 +171,27 @@
 
                 }
             }
-            function updateTableData() {
-                const task = JSON.parse(localStorage.getItem("task"))
+            // function updateTableData() {
+            //     const task = JSON.parse(localStorage.getItem("task"))
 
-                const tabledata = document.getElementById("tabledata");
-                tabledata.innerHTML = "";
+            //     const tabledata = document.getElementById("tabledata");
+            //     tabledata.innerHTML = "";
 
-                for (let i = 0; i < task.length; i++) {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
-                    <td>${i + 1}</td>
-                    <td>${task[i].name}</td>
-                    <td>${task[i].mail_id}</td>
-                    <td>${task[i].appDate}</td>
-                    <td>${task[i].frtime}</td>
-                    <td>${task[i].time}</td>
-                    <td>${task[i].Despvalue}</td>`
+            //     for (let i = 0; i < task.length; i++) {
+            //         const row = document.createElement("tr");
+            //         row.innerHTML = `
+            //         <td>${i + 1}</td>
+            //         <td>${task[i].name}</td>
+            //         <td>${task[i].mail_id}</td>
+            //         <td>${task[i].appDate}</td>
+            //         <td>${task[i].frtime}</td>
+            //         <td>${task[i].time}</td>
+            //         <td>${task[i].Despvalue}</td>`
 
-                    tabledata.appendChild(row);
-                }
+            //         tabledata.appendChild(row);
+            //     }
 
-            }
+            // }
 
 
 
