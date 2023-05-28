@@ -17,13 +17,14 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"
         integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 
+    <script src="index.js"></script>
 
 </head>
 
 <body>
     <div class="container">
         <h1>Book Appointment</h1>
-        <form action="appointment.html" id="app_book" name="form1" method="post" onsubmit=" return form_valid()">
+        <form action="appointment.html" id="app_book" name="form1" method="post" onsubmit="return form_valid()">
             <div class="app p-2">
                 <table>
                     <tr>
@@ -96,107 +97,90 @@
                 </table>
             </div>
         </form>
-
-
-        <!-- <table border="1" class="table">
-            <thead>
-                <tr>
-                    <th>SL No.</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Date</th>
-                    <th>From Time</th>
-                    <th>To Time</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody id="tabledata"></tbody>
-        </table> -->
-        <script src="index.js"></script>
-        <script>
-            // debugger
-            let loginform = document.getElementById("app_book");
-            let arr = []
-
-            getLocalStorageData()
-
-            loginform.addEventListener('submit', (e) => {
-
-                e.preventDefault();
-
-                let username = document.getElementById("fname").value;
-                let Email = document.getElementById("mail").value;
-                let Date = document.getElementById("myDate").value;
-
-                let formtime = document.getElementById("fromtime").value;
-                let newtime = formtime.split(" ")
-                let totime = document.getElementById("totime").value;
-                let uptotime = totime.split(" ")
-                let Description = document.getElementById("desp").value;
-
-                if (username === "" || Email === "" || Date === "" || formtime === "" || totime === "" || Description === "") {
-                    return;
-                }
-                const userData = {
-                    name: username,
-                    mail_id: Email,
-                    appDate: Date,
-                    frtime: newtime[0],
-                    time: uptotime,
-                    Despvalue: Description
-                }
-                let newData = localStorage.setItem('new', JSON.stringify(userData))
-                arr.push(userData);
-                let array = localStorage.setItem('task', JSON.stringify(arr));
-
-                // let findarray = arr.find(element => element.name === userData.name)
-                // console.log(findarray);
-
-                let filterArray = arr.filter((value) => {
-                    return
-
-                })
-
-
-                console.log(filterArray)
-                loginform.reset();
-
-                updateTableData()
-
-            })
-            function getLocalStorageData() {
-                const task = JSON.parse(localStorage.getItem("task"));
-                if (task) {
-                    arr = task;
-
-                }
-            }
-            // function updateTableData() {
-            //     const task = JSON.parse(localStorage.getItem("task"))
-
-            //     const tabledata = document.getElementById("tabledata");
-            //     tabledata.innerHTML = "";
-
-            //     for (let i = 0; i < task.length; i++) {
-            //         const row = document.createElement("tr");
-            //         row.innerHTML = `
-            //         <td>${i + 1}</td>
-            //         <td>${task[i].name}</td>
-            //         <td>${task[i].mail_id}</td>
-            //         <td>${task[i].appDate}</td>
-            //         <td>${task[i].frtime}</td>
-            //         <td>${task[i].time}</td>
-            //         <td>${task[i].Despvalue}</td>`
-
-            //         tabledata.appendChild(row);
-            //     }
-
-            // }
-
-
-
-        </script>
     </div>
+
+
+
+    <script>
+
+        // debugger
+        let loginform = document.getElementById("app_book");
+        let arr = [];
+
+        getLocalStorageData();
+
+        loginform.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            let username = document.getElementById("fname").value;
+            let Email = document.getElementById("mail").value;
+            let Date = document.getElementById("myDate").value;
+            let formtime = document.getElementById("fromtime").value;
+            let totime = document.getElementById("totime").value;
+            let Description = document.getElementById("desp").value;
+
+            if (
+                username === "" ||
+                Email === "" ||
+                Date === "" ||
+                formtime === "" ||
+                totime === "" ||
+                Description === ""
+            ) {
+                return;
+            }
+
+            const userData = {
+                name: username,
+                mail_id: Email,
+                appDate: Date,
+                frtime: formtime,
+                time: totime,
+                Despvalue: Description,
+            };
+
+            const overlappingAppointments = arr.filter((appointment) => {
+                return (
+                    appointment.appDate === userData.appDate &&
+                    (
+                        (appointment.frtime <= userData.frtime && appointment.time > userData.frtime) || // Check for overlapping start time
+                        (appointment.frtime < userData.time && appointment.time >= userData.time) || // Check for overlapping end time
+                        (appointment.frtime >= userData.frtime && appointment.time <= userData.time) // Check for fully overlapped appointment
+                    )
+                );
+            });
+
+            if (overlappingAppointments.length > 0) {
+                alert("An appointment already exists for the same date and overlapping time.");
+                return; // Prevent form submission
+            }
+
+            arr.push(userData);
+
+            arr.sort((a, b) => {
+                // Sort by date and time
+                if (a.appDate !== b.appDate) {
+                    return a.appDate.localeCompare(b.appDate);
+                } else {
+                    return a.frtime.localeCompare(b.frtime);
+                }
+            });
+
+            let newData = localStorage.setItem("new", JSON.stringify(userData));
+            let array = localStorage.setItem("task", JSON.stringify(arr));
+
+            loginform.reset();
+
+            window.location.href = "appointment.html";
+        });
+
+        function getLocalStorageData() {
+            const task = JSON.parse(localStorage.getItem("task"));
+            if (task) {
+                arr = task;
+            }
+        }
+    </script>
 
 </body>
 
